@@ -1,0 +1,302 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Dungeons & Dragons",
+    "version": "1.0.0",
+    "description": "API para gestionar personajes, clases y hechizos de D&D."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api"
+    }
+  ],
+  "paths": {
+    "/characters": {
+      "get": {
+        "summary": "Obtener todos los personajes",
+        "responses": {
+          "200": {
+            "description": "Lista de personajes"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un nuevo personaje",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Character"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Personaje creado"
+          }
+        }
+      }
+    },
+    "/characters/{id}": {
+      "put": {
+        "summary": "Actualizar personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Character"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Personaje actualizado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Personaje eliminado"
+          }
+        }
+      }
+    },
+    "/clases": {
+      "get": {
+        "summary": "Obtener todas las clases",
+        "responses": {
+          "200": {
+            "description": "Lista de clases"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear una nueva clase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Clase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Clase creada"
+          }
+        }
+      }
+    },
+    "/clases/{id}": {
+      "put": {
+        "summary": "Actualizar clase",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Clase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Clase actualizada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar clase",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Clase eliminada"
+          }
+        }
+      }
+    },
+    "/hechizos": {
+      "get": {
+        "summary": "Obtener todos los hechizos",
+        "responses": {
+          "200": {
+            "description": "Lista de hechizos"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear un nuevo hechizo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hechizo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hechizo creado"
+          }
+        }
+      }
+    },
+    "/hechizos/{id}": {
+      "put": {
+        "summary": "Actualizar hechizo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hechizo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hechizo actualizado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar hechizo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Hechizo eliminado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Character": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "clase": { "type": "string", "description": "ID de la clase (ObjectId)" },
+          "nivel": { "type": "integer", "minimum": 1 },
+          "equipamiento": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "hechizos": {
+            "type": "array",
+            "items": { "type": "string", "description": "ID de hechizo (ObjectId)" }
+          }
+        },
+        "required": ["nombre", "clase"]
+      },
+      "Clase": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "caracteristicas_clase": {
+            "type": "object",
+            "properties": {
+              "content": { "type": "string" },
+              "hit_points": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "proficiencias": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "equipamiento": {
+                "type": "array",
+                "items": {}
+              },
+              "tabla_clase": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              },
+              "tabla_hechizos": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "required": ["nombre", "caracteristicas_clase"]
+      },
+      "Hechizo": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "content": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["nombre", "content"]
+      }
+    }
+  }
+}
